@@ -1,0 +1,10 @@
+{
+  "name": "heave",
+  "version": "0.0.1",
+  "description": "HEAVE",
+  "main": "index.js",
+  "repository": "https://github.com/granitemakes/heave",
+  "author": "Gabe M <gabemeola@gmail.com>",
+  "license": "MIT",
+  "private": false
+}
