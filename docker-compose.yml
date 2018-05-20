@@ -1,0 +1,16 @@
+version: "3"
+services:
+  master:
+    build:
+      context: ./src
+    command: bash -c "PORT=80 node /app/index.js"
+  nginx:
+    build:
+      context: .
+    depends_on:
+      - test-web-app
+      - master
+    ports:
+      - "8080:80"
+  test-web-app:
+    image: crccheck/hello-world
