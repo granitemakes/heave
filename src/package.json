@@ -6,5 +6,9 @@
   "repository": "https://github.com/granitemakes/heave",
   "author": "Gabe M <gabemeola@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "nginx-conf": "^1.4.0",
+    "node-fs-extra": "^0.8.2"
+  }
 }

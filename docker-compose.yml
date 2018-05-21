@@ -4,6 +4,8 @@ services:
     build:
       context: ./src
     command: bash -c "PORT=80 node /app/index.js"
+    volumes:
+       - nginxConfigs:/etc/nginx/
   nginx:
     build:
       context: .
@@ -11,6 +13,11 @@ services:
       - test-web-app
       - master
     ports:
-      - "8080:80"
+      # - "8080:80"
+      - "80:80"
+    volumes:
+       - nginxConfigs:/etc/nginx/
   test-web-app:
     image: crccheck/hello-world
+volumes:
+  nginxConfigs:
