@@ -1,4 +1,5 @@
 const http = require('http')
+const docker = require('./docker');
 
 const PORT = process.env.PORT || 3000;
 
@@ -11,5 +12,5 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
   console.log(`Server is up and running at port: ${PORT}`)
-  require('./updateConfig');
+  docker();
 })

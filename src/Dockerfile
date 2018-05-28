@@ -1,6 +1,9 @@
-FROM node:latest
-
-WORKDIR /app
+FROM node:8 as build
 COPY . /app
-# Use this in "command" instead
-RUN yarn install
+WORKDIR /app
+RUN yarn install && yarn build --targets node8-linux-x64
+
+
+FROM alpine:latest
+COPY --from=build /app/index /heave/index
+ENTRYPOINT [ "/heave/index" ]

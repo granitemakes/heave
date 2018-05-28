@@ -7,8 +7,13 @@
   "author": "Gabe M <gabemeola@gmail.com>",
   "license": "MIT",
   "private": false,
-  "dependencies": {
-    "nginx-conf": "^1.4.0",
-    "node-fs-extra": "^0.8.2"
+  "scripts": {
+    "dev": "nodemon index.js",
+    "build": "pkg index.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.17.5",
+    "pkg": "^4.3.1"
   }
 }

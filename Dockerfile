@@ -1,5 +1,10 @@
-FROM nginx:latest
+FROM traefik:1.6-alpine as traefik
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY default.conf /etc/nginx/conf.d/default.conf
-COPY index.html /app/index.html
+FROM alpine:latest
+
+# Copy config file
+COPY ./config.toml /etc/traefik/traefik.toml
+# Copy Traefik
+COPY --from=traefik /usr/local/bin/traefik /usr/local/bin/traefik
+
+ENTRYPOINT [ "traefik" ]

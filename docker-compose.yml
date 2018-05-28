@@ -1,23 +1,48 @@
 version: "3"
 services:
+  reverse-proxy:
+    image: traefik # The official Traefik docker image
+    command: --api --docker # Enables the web UI and tells Træfik to listen to docker
+    privileged: true
+    ports:
+      - "80:80"     # The HTTP port
+      - "8080:8080" # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - ./config.toml:/etc/traefik/traefik.toml # Use our config file
   master:
     build:
       context: ./src
     command: bash -c "PORT=80 node /app/index.js"
     volumes:
        - nginxConfigs:/etc/nginx/
+    labels:
+      - "traefik.docker.network=traefik"
+      - "traefik.frontend.rule=Path:/master"
   nginx:
     build:
-      context: .
+      context: ./nginx
     depends_on:
       - test-web-app
       - master
     ports:
-      # - "8080:80"
-      - "80:80"
+      - "8000:80"
+      # - "80:80"
     volumes:
        - nginxConfigs:/etc/nginx/
+    labels:
+      - "traefik.docker.network=traefik"
+      - "traefik.frontend.rule=Path:/nginx"
   test-web-app:
     image: crccheck/hello-world
+    labels:
+      - "traefik.docker.network=traefik"
+      - "traefik.frontend.rule=Path:/test"
+  test-hello:
+      image: tutum/hello-world
+      labels:
+        # - "traefik.frontend.rule=Path:/hello"
+        - "traefik.frontend.rule=Host:hello.localhost"
+        - "traefik.frontend.headers.customResponseHeaders=Content-Base:http://localhost/hello"
 volumes:
   nginxConfigs:
